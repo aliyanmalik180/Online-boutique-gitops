@@ -1,6 +1,6 @@
 # Dev environment. Fully automated: a new commit on main reaches the cluster
 # without anyone running kubectl.
-# Replace YOUR_GH_USER once with: make configure GH_USER=<your-github-username>
+# Replace aliyanmalik180 once with: make configure GH_USER=<your-github-username>
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_GH_USER/online-boutique-gitops.git
+    repoURL: https://github.com/aliyanmalik180/online-boutique-gitops.git
     targetRevision: main
     path: k8s/overlays/dev
   destination:

@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_GH_USER/online-boutique-gitops.git
+    repoURL: https://github.com/aliyanmalik180/online-boutique-gitops.git
     targetRevision: main
     path: k8s/overlays/prod
   destination:
