@@ -1,0 +1,7 @@
+This project includes and builds on "Online Boutique" (microservices-demo)
+Copyright Google LLC, licensed under the Apache License, Version 2.0.
+Source: https://github.com/GoogleCloudPlatform/microservices-demo (release v0.10.7)
+
+Modifications in this repository: UI customizations to src/frontend (dark mode,
+Customize UI panel, owner credit), Kustomize overlays, ArgoCD applications,
+kind configuration, monitoring values and CI/CD workflows.

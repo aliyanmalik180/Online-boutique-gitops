@@ -1,0 +1,29 @@
+# Dev environment. Fully automated: a new commit on main reaches the cluster
+# without anyone running kubectl.
+# Replace YOUR_GH_USER once with: make configure GH_USER=<your-github-username>
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boutique-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_GH_USER/online-boutique-gitops.git
+    targetRevision: main
+    path: k8s/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: boutique-dev
+  syncPolicy:
+    automated:
+      prune: true      # delete resources that were removed from Git
+      selfHeal: true   # revert manual kubectl changes back to what Git says
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m

@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: boutique-prod
+
+resources:
+  - ../../base
+
+# Updated by the "promote" workflow (copies the tag that was validated in dev).
+images:
+  - name: us-central1-docker.pkg.dev/online-boutique-ci/microservices-demo/frontend
+    newName: us-central1-docker.pkg.dev/online-boutique-ci/microservices-demo/frontend
+    newTag: v0.10.7
+
+patches:
+  - path: remove-lb-service.yaml
+  - path: remove-loadgenerator.yaml
+  - path: frontend-ha.yaml

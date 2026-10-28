@@ -1,0 +1,210 @@
+/*
+ * Theme layer for Online Boutique (dark mode, color themes, density,
+ * font size, product grid, owner credit).
+ * Loaded AFTER the upstream stylesheets so it can override them.
+ * Everything is driven by attributes on <html> set by static/js/theme.js:
+ *   data-theme   = light | dark
+ *   data-color   = default | ocean | sunset | forest
+ *   data-density = comfortable | compact
+ *   data-font    = small | medium | large
+ *   data-cols    = 2 | 3 | 4
+ */
+
+:root {
+  --ob-primary: #853B5C;
+  --ob-primary-dark: #570D2E;
+  --ob-accent: #CE0631;
+  --ob-accent-soft: #ff8a9e;
+  --ob-primary-d: #4a1f33;
+  --ob-primary-dark-d: #2a0a19;
+
+  --ob-bg: #F9F9F9;
+  --ob-surface: #ffffff;
+  --ob-text: #111111;
+  --ob-muted: #5C6063;
+  --ob-border: #d9d9de;
+
+  --ob-fs: 1;
+  --ob-cols: 3;
+}
+
+html[data-color="ocean"] {
+  --ob-primary: #0F5C8C; --ob-primary-dark: #083B5C; --ob-accent: #0B6FA4; --ob-accent-soft: #6ec6ee;
+  --ob-primary-d: #0d3b57; --ob-primary-dark-d: #07263a;
+}
+html[data-color="sunset"] {
+  --ob-primary: #C2410C; --ob-primary-dark: #7C2D12; --ob-accent: #B45309; --ob-accent-soft: #ffb27a;
+  --ob-primary-d: #6b2408; --ob-primary-dark-d: #451a03;
+}
+html[data-color="forest"] {
+  --ob-primary: #2F6B3F; --ob-primary-dark: #1B4228; --ob-accent: #2E7D32; --ob-accent-soft: #86d19a;
+  --ob-primary-d: #1e4a2b; --ob-primary-dark-d: #10291a;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ob-bg: #121214;
+  --ob-surface: #1c1c21;
+  --ob-text: #ececf1;
+  --ob-muted: #a6a6b3;
+  --ob-border: #34343d;
+  --ob-primary: var(--ob-primary-d);
+  --ob-primary-dark: var(--ob-primary-dark-d);
+}
+
+html[data-font="small"] { --ob-fs: 0.9; }
+html[data-font="large"] { --ob-fs: 1.15; }
+html[data-cols="2"] { --ob-cols: 2; }
+html[data-cols="4"] { --ob-cols: 4; }
+
+/* ---------- Base surfaces ---------- */
+html { font-size: calc(16px * var(--ob-fs)); }
+body { background-color: var(--ob-bg); color: var(--ob-text); }
+main, .h-product, .recommendations, .cart-sections, .order { background-color: var(--ob-bg); }
+a { color: var(--ob-accent); }
+html[data-theme="dark"] a { color: var(--ob-accent-soft); }
+
+header { background-color: var(--ob-primary); }
+header .navbar.sub-navbar { background-color: var(--ob-surface); box-shadow: 0 0 4px rgba(0, 0, 0, 0.35); }
+header .navbar.sub-navbar a { color: var(--ob-muted); }
+header .h-control, header .h-control select { color: var(--ob-muted); }
+header .h-control select { background: transparent; }
+header .h-control select option { background: var(--ob-surface); color: var(--ob-text); }
+header .cart-size-circle { background-color: var(--ob-primary); color: #fff; }
+footer .footer-top { background-color: var(--ob-primary-dark); color: #fff; }
+footer .footer-top a { color: #fff; }
+
+html[data-theme="dark"] header .navbar.sub-navbar img { filter: invert(1) hue-rotate(180deg); }
+
+/* ---------- Product, cart, order, forms ---------- */
+.h-product .product-info h2,
+.h-product .input-group-text,
+.h-product .btn.btn-info { color: var(--ob-text); }
+.h-product .input-group-text,
+.h-product .btn.btn-info,
+.product-quantity-dropdown select {
+  background-color: var(--ob-surface);
+  border-color: var(--ob-border);
+  color: var(--ob-text);
+}
+.cart-summary-item-row-item-id-row, .cart-sections .text-muted { color: var(--ob-muted); }
+.table, .table td, .table th { color: inherit; border-color: var(--ob-border); }
+hr { border-top-color: var(--ob-border); }
+
+.cymbal-button-primary { background-color: var(--ob-accent); border-color: var(--ob-accent); color: #fff; }
+.cymbal-button-primary:hover { background-color: var(--ob-accent); filter: brightness(0.88); }
+.cymbal-button-secondary { color: var(--ob-accent); border-color: var(--ob-accent); }
+html[data-theme="dark"] .cymbal-button-secondary { color: var(--ob-accent-soft); border-color: var(--ob-accent-soft); }
+
+.cymbal-form-field input[type='text'],
+.cymbal-form-field input,
+.cymbal-form-field select {
+  background-color: var(--ob-surface);
+  color: var(--ob-text);
+  border-color: var(--ob-border);
+}
+.cymbal-form-field label { background-color: var(--ob-surface); color: var(--ob-muted); }
+
+/* ---------- Font size (px-based upstream rules need explicit scaling) ---------- */
+.hot-product-card-name { font-size: calc(18px * var(--ob-fs)); }
+.hot-product-card-price { font-size: calc(14px * var(--ob-fs)); }
+.hot-products-row h3, .cart-sections h3 { font-size: calc(36px * var(--ob-fs)); }
+.h-product .product-price { font-size: calc(28px * var(--ob-fs)); }
+.h-product .product-info h2 { font-size: calc(56px * var(--ob-fs)); }
+footer .footer-text { font-size: calc(16px * var(--ob-fs)); }
+
+/* ---------- Product grid (home page) ---------- */
+@media (min-width: 768px) {
+  .hot-product-card {
+    flex: 0 0 calc(100% / var(--ob-cols));
+    max-width: calc(100% / var(--ob-cols));
+  }
+}
+
+/* ---------- Layout density ---------- */
+html[data-density="compact"] .hot-products-row { padding-bottom: 35px; }
+html[data-density="compact"] .hot-products-row h3 { margin-top: 28px; margin-bottom: 16px; }
+html[data-density="compact"] .hot-product-card { margin-bottom: 24px; }
+html[data-density="compact"] .h-product { margin-top: 28px; margin-bottom: 56px; }
+html[data-density="compact"] .cart-sections { padding-top: 28px; padding-bottom: 60px; }
+html[data-density="compact"] .order-complete-section { padding-top: 28px; padding-bottom: 60px; }
+html[data-density="compact"] footer .footer-top { padding: 30px 0; }
+
+/* ---------- Header tools: dark-mode switch and Customize UI ---------- */
+header .navbar.sub-navbar .controls { align-items: center; }
+.ob-tools { display: flex; align-items: center; gap: 14px; margin-right: 18px; position: relative; }
+
+.ob-switch {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; border: 0; padding: 4px; cursor: pointer;
+  color: var(--ob-muted); font: inherit; font-size: 13px;
+}
+.ob-switch-track {
+  width: 38px; height: 20px; border-radius: 10px; position: relative;
+  background: var(--ob-border); transition: background 0.2s;
+}
+.ob-switch-thumb {
+  position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+  border-radius: 50%; background: #fff; transition: transform 0.2s;
+}
+.ob-switch[aria-checked="true"] .ob-switch-track { background: var(--ob-accent); }
+.ob-switch[aria-checked="true"] .ob-switch-thumb { transform: translateX(18px); }
+.ob-switch-state { min-width: 26px; font-weight: 700; color: var(--ob-text); }
+
+.ob-customize { position: relative; }
+#ob-customize-btn {
+  background: transparent; color: var(--ob-text);
+  border: 1px solid var(--ob-border); border-radius: 6px;
+  padding: 5px 12px; font: inherit; font-size: 13px; cursor: pointer;
+}
+#ob-customize-btn:hover, #ob-customize-btn[aria-expanded="true"] { border-color: var(--ob-accent); }
+
+#ob-panel {
+  position: absolute; top: 46px; right: 0; z-index: 1000;
+  width: min(320px, 92vw); padding: 16px;
+  background: var(--ob-surface); color: var(--ob-text);
+  border: 1px solid var(--ob-border); border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+}
+#ob-panel[hidden] { display: none; }
+#ob-panel h4 { font-size: 15px; margin: 0 0 12px; }
+.ob-row { margin-bottom: 12px; }
+.ob-row > span { display: block; font-size: 12px; color: var(--ob-muted); margin-bottom: 6px; }
+.ob-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.ob-group button {
+  background: transparent; color: var(--ob-text);
+  border: 1px solid var(--ob-border); border-radius: 6px;
+  padding: 4px 10px; font: inherit; font-size: 13px; cursor: pointer;
+}
+.ob-group button[aria-pressed="true"] {
+  background: var(--ob-accent); border-color: var(--ob-accent); color: #fff;
+}
+.ob-group .ob-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+#ob-reset {
+  width: 100%; background: transparent; color: var(--ob-text);
+  border: 1px solid var(--ob-border); border-radius: 6px; padding: 6px; cursor: pointer;
+}
+#ob-reset:hover { border-color: var(--ob-accent); }
+.ob-switch:focus-visible, #ob-customize-btn:focus-visible, .ob-group button:focus-visible, #ob-reset:focus-visible {
+  outline: 2px solid var(--ob-accent-soft); outline-offset: 2px;
+}
+
+/* ---------- Owner credit (bottom-right of every page) ---------- */
+.ob-owner {
+  position: fixed; bottom: 16px; right: 16px; z-index: 900;
+  padding: 6px 12px; border-radius: 6px;
+  background: var(--ob-primary-dark); color: #fff;
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  pointer-events: none; user-select: none;
+}
+
+@media (max-width: 768px) {
+  .ob-owner { bottom: 8px; right: 8px; font-size: 11px; padding: 4px 8px; opacity: 0.92; }
+  body { padding-bottom: 44px; }
+  .ob-switch-label { display: none; }
+  .ob-tools { margin-right: 8px; gap: 6px; }
+  #ob-customize-btn { padding: 4px 8px; }
+}
+@media print { .ob-owner, .ob-tools { display: none; } }

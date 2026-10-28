@@ -1,0 +1,20 @@
+# Optional prod environment. Manual sync on purpose: promotion is a deliberate
+# act (run the "promote" workflow, then press Sync). Needs extra RAM, so do not
+# run it together with dev on a small PC unless you scale dev down.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boutique-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_GH_USER/online-boutique-gitops.git
+    targetRevision: main
+    path: k8s/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: boutique-prod
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,39 @@
+# kube-prometheus-stack values sized for a laptop-class kind cluster.
+# Online Boutique services do not expose Prometheus metrics, so the dashboards
+# that matter here are the built-in Kubernetes ones (CPU, memory, restarts per
+# pod) fed by cAdvisor and kube-state-metrics.
+fullnameOverride: monitoring
+
+# kind does not expose these control-plane endpoints, so scraping them only
+# produces red targets and noisy alerts.
+kubeEtcd: { enabled: false }
+kubeScheduler: { enabled: false }
+kubeControllerManager: { enabled: false }
+kubeProxy: { enabled: false }
+
+alertmanager:
+  enabled: false
+
+prometheus:
+  prometheusSpec:
+    retention: 6h
+    resources:
+      requests: { cpu: 100m, memory: 400Mi }
+      limits: { cpu: 500m, memory: 800Mi }
+    # pick up ServiceMonitors from any namespace without Helm labels
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
+grafana:
+  defaultDashboardsTimezone: browser
+  resources:
+    requests: { cpu: 50m, memory: 128Mi }
+    limits: { cpu: 300m, memory: 256Mi }
+
+prometheus-node-exporter:
+  resources:
+    limits: { cpu: 100m, memory: 64Mi }
+
+kube-state-metrics:
+  resources:
+    limits: { cpu: 100m, memory: 128Mi }

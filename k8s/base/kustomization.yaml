@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Upstream Online Boutique v0.10.7 release manifest (all images pinned).
+# Only change vs upstream: redis:alpine -> redis:7.4-alpine (no floating tags).
+resources:
+  - online-boutique.yaml
+  - ingress.yaml
