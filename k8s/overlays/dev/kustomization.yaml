@@ -11,8 +11,8 @@ resources:
 # so the first ArgoCD sync works before anything has been built.
 images:
   - name: us-central1-docker.pkg.dev/online-boutique-ci/microservices-demo/frontend
-    newName: us-central1-docker.pkg.dev/online-boutique-ci/microservices-demo/frontend
-    newTag: v0.10.7
+    newName: ghcr.io/aliyanmalik180/online-boutique-frontend
+    newTag: 1f2a1df93907
 
 patches:
   # kind has no cloud load balancer, traffic enters through the Ingress.
